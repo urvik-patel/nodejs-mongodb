@@ -15,11 +15,11 @@ const UserSchema = new mongoose.Schema({
   }
 })
 
-UserSchema.method("toJSON", function() {
-  const { __v, _id, ...object } = this.toObject();
-  object.id = _id;
-  return object;
-});
+UserSchema.method('toJSON', function () {
+  const { __v, _id, ...object } = this.toObject()
+  object.id = _id
+  return object
+})
 
 const User = mongoose.model('user', UserSchema)
 

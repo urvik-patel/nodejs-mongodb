@@ -1,30 +1,30 @@
 const User = require('../../models/user')
 const response = require('../../services/Response')
-const mongoose = require('mongoose')
+// const mongoose = require('mongoose')
 
 module.exports = {
   findAll: async (req, res, next) => {
     try {
-      const { page = 1, limit = 10, search, gender, sort = '_id', order = 'DESC'} = req.headers
+      const { page = 1, limit = 10, search, gender, sort = '_id', order = 'DESC' } = req.headers
       // await User.createIndex({ title: 'firstName'})
       var query = {}
-      if(search) {
-        query.firstName = eval(`/.*${search}+.*/i`)
+      if (search) {
+        query.firstName = `/.*${search}+.*/i`
       }
-      if(gender) {
-        query.gender = eval(`/${gender}/i`)
+      if (gender) {
+        query.gender = `/${gender}/i`
       }
-      const countData = await User.countDocuments(query);
-      if(!countData) {
+      const countData = await User.countDocuments(query)
+      if (!countData) {
         response.successResponseWithoutData(res, 'No data found', 200)
       }
-      let offset = 0 + (+limit * (+page - 1))
+      const offset = 0 + (+limit * (+page - 1))
       const totalPages = Math.ceil(countData / limit)
 
       var sortObject = {}
       sortObject[sort] = order
       const data = await User.find(query).limit(limit).skip(offset).sort(sortObject)
-      response.successResponseData(res, data, 200, 'success', {totalPages: totalPages, currentPage: page, recordsPerPage: limit})
+      response.successResponseData(res, data, 200, 'success', { totalPages: totalPages, currentPage: page, recordsPerPage: limit })
     } catch (error) {
       console.log(error)
       response.errorResponseData(res, error)
