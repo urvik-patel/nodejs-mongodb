@@ -49,15 +49,6 @@ module.exports = {
 
   createUser: async (req, res, next) => {
     try {
-      console.log('in')
-      const { firstName, lastName, email, gender } = req.body
-      if (!firstName || !lastName || !email || !gender) {
-        return res.send({
-          code: 400,
-          message: 'Some of the required fields are missing.'
-        })
-      }
-
       const userData = new User({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
@@ -76,10 +67,6 @@ module.exports = {
   updateUser: async (req, res, next) => {
     try {
       const { id } = req.params
-      const { firstName, lastName, email } = req.body
-      if (!firstName || !lastName || !email || !id) {
-        response.errorResponseData(res, null, 400, 'Some of the required fields are missing.')
-      }
       const data = await User.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
       response.successResponseData(res, data, 200, 'success')
     } catch (error) {
