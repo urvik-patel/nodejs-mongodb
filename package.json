@@ -33,6 +33,7 @@
     "mongoose": "^6.7.0",
     "morgan": "^1.10.0",
     "mysql2": "^2.3.3",
+    "object-transformer": "0.0.5",
     "pug": "^3.0.2",
     "request-ip": "^3.3.0",
     "sequelize": "^6.25.3"

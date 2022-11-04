@@ -1,6 +1,7 @@
 const User = require('../../models/user')
 const response = require('../../services/Response')
 // const mongoose = require('mongoose')
+const Transformer = require('../../transformer/user')
 
 module.exports = {
   findAll: async (req, res, next) => {
@@ -24,7 +25,8 @@ module.exports = {
       var sortObject = {}
       sortObject[sort] = order
       const data = await User.find(query).limit(limit).skip(offset).sort(sortObject)
-      response.successResponseData(res, data, 200, 'success', { totalPages: totalPages, currentPage: page, recordsPerPage: limit })
+      const userList = Transformer.userList(data)
+      response.successResponseData(res, userList, 200, 'success', { totalPages: totalPages, currentPage: page, recordsPerPage: limit })
     } catch (error) {
       console.log(error)
       response.errorResponseData(res, error)
